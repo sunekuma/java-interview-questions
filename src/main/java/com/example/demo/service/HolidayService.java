@@ -33,8 +33,10 @@ public class HolidayService {
 		HolidayDto holidayData = null;
 		// find input date is null. if yes, read the current date
 		if (date == null) {
-			searchDate = LocalDate.now();
+			searchDate = LocalDate.now().minusYears(1);
+			inputDate = LocalDate.now();
 		} else {
+			searchDate = LocalDate.now().minusYears(1);
 			inputDate = LocalDate.parse(date);
 		}
 		// check if the holiday data is already present in h2 database
@@ -46,7 +48,7 @@ public class HolidayService {
 		}
 
 		// fetch data from HolidayAPI for 2021, since HolidayAPI free subscription not returning any data other than last year
-		String responseData = holidayApiConsumer.retrieveHolidays(countryCode, LocalDate.now().minusYears(1));
+		String responseData = holidayApiConsumer.retrieveHolidays(countryCode, searchDate);
 
 		// persist the data in h2 database
 		holidayRespository.save(HolidayEntity.builder().year(searchDate.getYear()).data(responseData).build());

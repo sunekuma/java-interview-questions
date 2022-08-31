@@ -2,10 +2,9 @@ package com.example.demo.converter;
 
 import java.time.LocalDate;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.controller.model.HolidayDto;
@@ -18,17 +17,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class HolidayModelConverter {
 	
-	@Autowired
-	private ObjectMapper objectMapper;
+	private ObjectMapper objectMapper;	
 	
+	public HolidayModelConverter(ObjectMapper objectMapper) {
+		this.objectMapper = objectMapper;
+	}
+
 	public HolidayResponse convertToHolidayResponseType(HolidayDto holidayData, LocalDate inputDate) {
-		Map<LocalDate, String> holidayMap = new TreeMap();
+		Map<LocalDate, String> holidayMap = new TreeMap<>();
 		HolidayResponse response = null;
 		holidayData.getHolidays().forEach(holiday -> holidayMap.put(holiday.getDate(), holiday.getName()));
 		for (Entry<LocalDate, String> holidayEntry : holidayMap.entrySet()) {
 			if (inputDate.isBefore(holidayEntry.getKey())) {
 				response = HolidayResponse.builder().holidayName(holidayEntry.getValue())
 						.nearestHolidayDate(holidayEntry.getKey()).build();
+				break;
 			}
 		}
 		if (response == null) {
