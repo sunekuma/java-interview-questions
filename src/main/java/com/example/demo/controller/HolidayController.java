@@ -19,14 +19,16 @@ import com.fasterxml.jackson.databind.JsonMappingException;
  */
 @RestController
 public class HolidayController {
-	
+
 	@Autowired
 	private HolidayService holidayService;
-	
+
 	@GetMapping("/holiday")
 	public ResponseEntity<HolidayResponse> nearestHoliday(
-			@RequestParam(name = "countryCode", required = true) String countryCode, @RequestParam(name = "date", required = false) String date) throws JsonMappingException, JsonProcessingException {
-        return new ResponseEntity<HolidayResponse>(holidayService.getNearestHoliday(countryCode, date), HttpStatus.OK);
-    }
+			@RequestParam(name = "countryCode", required = true) String countryCode,
+			@RequestParam(name = "date", required = false) String date)
+			throws JsonMappingException, JsonProcessingException {
+		return new ResponseEntity<HolidayResponse>(holidayService.getNearestHoliday(countryCode, date), HttpStatus.OK);
+	}
 
 }
