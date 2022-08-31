@@ -26,18 +26,16 @@ public class HolidayService {
 	@Autowired
 	private HolidayModelConverter holidayModelConverter;
 
-	public HolidayResponse getNearestHoliday(final String countryCode, final String date)
+	public HolidayResponse getNearestHoliday(final String countryCode, LocalDate inputDate)
 			throws JsonMappingException, JsonProcessingException {
 		LocalDate searchDate = null;
-		LocalDate inputDate = null;
 		HolidayDto holidayData = null;
 		// find input date is null. if yes, read the current date
-		if (date == null) {
+		if (inputDate == null) {
 			searchDate = LocalDate.now().minusYears(1);
 			inputDate = LocalDate.now();
 		} else {
 			searchDate = LocalDate.now().minusYears(1);
-			inputDate = LocalDate.parse(date);
 		}
 		// check if the holiday data is already present in h2 database
 		Optional<HolidayEntity> holidayEntityData = holidayRespository.findHolidaysByCountryAndYear(countryCode, searchDate.getYear());
