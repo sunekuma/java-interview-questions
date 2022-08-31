@@ -40,7 +40,7 @@ public class HolidayService {
 			inputDate = LocalDate.parse(date);
 		}
 		// check if the holiday data is already present in h2 database
-		Optional<HolidayEntity> holidayEntityData = holidayRespository.findById(searchDate.getYear());
+		Optional<HolidayEntity> holidayEntityData = holidayRespository.findHolidaysByCountryAndYear(countryCode, searchDate.getYear());
 		if (holidayEntityData.isPresent()) {
 			holidayData = holidayModelConverter.convertToHolidayDtoType(holidayEntityData.get().getData());
 			// send the response in required format
@@ -51,7 +51,7 @@ public class HolidayService {
 		String responseData = holidayApiConsumer.retrieveHolidays(countryCode, searchDate);
 
 		// persist the data in h2 database
-		holidayRespository.save(HolidayEntity.builder().year(searchDate.getYear()).data(responseData).build());
+		holidayRespository.save(HolidayEntity.builder().year(searchDate.getYear()).country(countryCode).data(responseData).build());
 		holidayData = holidayModelConverter.convertToHolidayDtoType(responseData);
 
 		// send the response in required format

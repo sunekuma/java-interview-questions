@@ -61,7 +61,7 @@ class HolidayServiceTest {
 	@SneakyThrows
 	@Test
 	void testGetNearestHoliday_Data_DB() {
-        Mockito.doReturn(mockHolidayEntity()).when(holidayRespository).findById(2021);
+        Mockito.doReturn(mockHolidayEntity()).when(holidayRespository).findHolidaysByCountryAndYear(Mockito.anyString(), Mockito.anyInt());
 		HolidayResponse holidayResponse = holidayService.getNearestHoliday("CA", "2021-01-17");
 		assertEquals(LocalDate.of(2021, 2, 2), holidayResponse.getNearestHolidayDate());
 		assertEquals("Groundhog Day", holidayResponse.getHolidayName());
@@ -70,7 +70,7 @@ class HolidayServiceTest {
 	@SneakyThrows
 	@Test
 	void testGetNearestHoliday_Date_Null() {
-        Mockito.doReturn(mockHolidayEntity()).when(holidayRespository).findById(2021);
+        Mockito.doReturn(mockHolidayEntity()).when(holidayRespository).findHolidaysByCountryAndYear(Mockito.anyString(), Mockito.anyInt());
 		HolidayResponse holidayResponse = holidayService.getNearestHoliday("CA", null);
 		assertEquals(LocalDate.of(2021, 12, 31), holidayResponse.getNearestHolidayDate());
 		assertEquals("New Year's Eve", holidayResponse.getHolidayName());
