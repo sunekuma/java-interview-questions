@@ -20,3 +20,6 @@ spring:
 backbase:
   my_secret: ${MY_SECRET:my yaml secret}
 
+holiday:
+  api:
+    key: f8841219-9126-4d8a-8030-adf28f6da8d0
