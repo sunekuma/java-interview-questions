@@ -29,14 +29,14 @@ class HolidayControllerTest {
     @SneakyThrows
     @BeforeEach
     void init() {
-        //Mockito.when(holidayService.getNearestHoliday(Mockito.anyString(), Mockito.anyString())).thenReturn(HolidayResponse.builder().holidayName("test").nearestHolidayDate(LocalDate.now()).build());
+        Mockito.when(holidayService.getNearestHoliday(Mockito.anyString(), Mockito.any(LocalDate.class))).thenReturn(HolidayResponse.builder().holidayName("test").nearestHolidayDate(LocalDate.now()).build());
     }
 
     @SneakyThrows
     @Test
     public void testNearestHoliday() {
-        //HolidayResponse response = holidayController.nearestHoliday("CA", "2022-08-30").getBody();
-        //assertEquals("test", response.getHolidayName());
+        HolidayResponse response = holidayController.nearestHoliday("CA", LocalDate.of(2022, 02, 15)).getBody();
+        assertEquals("test", response.getHolidayName());
     }
 
 }
